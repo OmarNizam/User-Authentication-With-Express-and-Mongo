@@ -8,7 +8,7 @@ router.get('/login', function(req, res, next) {
 });
 
 // POST /login
-router.post('/', function(req, res, next) {
+router.post('/login', function(req, res, next) {
   return res.send('Logged In!');
 });
 
