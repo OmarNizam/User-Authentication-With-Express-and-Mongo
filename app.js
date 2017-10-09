@@ -1,7 +1,15 @@
 var express = require('express');  // to make the app work
 var bodyParser = require('body-parser'); // to read the body of requests send to the server by the browser
 var mongoose = require('mongoose'); // step1 after install mongoose we have to require it.
+var session = require('express-session');
 var app = express();
+
+// use sessions to keep tracking logins
+app.use(session({  // is the only required option is secret
+  secret: 'treehouse loves you', // is a srtring that is used to sign the session id cookie
+  resave: true, // Resave option forces the the session to be saved in the session store.
+  saveUninitialized: false, // forces an initialized session to be saved in the session store.
+}));
 
 // mongodb connection
 mongoose.connect("mongodb://localhost:27017/Bookworm");
