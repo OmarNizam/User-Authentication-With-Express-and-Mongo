@@ -1,5 +1,5 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require('express');  // to make the app work
+var bodyParser = require('body-parser'); // to read the body of requests send to the server by the browser
 var app = express();
 
 // parse incoming requests
@@ -7,13 +7,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // serve static files from /public
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public')); // tell express to serve static assets like pictures and stylesheets from public folder
 
 // view engine setup
-app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
+app.set('view engine', 'pug'); // tell express that we want to use the pug template engine
+app.set('views', __dirname + '/views'); // tell express where to find our pug templates
 
-// include routes
+// include routes  // setup our routes
 var routes = require('./routes/index');
 app.use('/', routes);
 
