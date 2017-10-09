@@ -3,7 +3,7 @@ var router = express.Router();
 
 // GET /register
 router.get('/register', function(req, res, next) {
-  return res.send("Register today!");
+  return res.render('register', { title: 'Sign Up'});  // look to the title in layout.pug
 })
 // POST /register
 router.post('/register', function(req, res, next) {
