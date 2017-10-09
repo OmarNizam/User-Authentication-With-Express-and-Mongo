@@ -27,7 +27,7 @@ var UserSchema = new mongoose.Schema({
 
 // authenticate input against database documents
 UserSchema.statics.authenticate = function(email, password, callback) {
-  User.findOne({ email: email });  // tell mongoose to setup a query to find the document with the user's email address.
+  User.findOne({ email: email })  // tell mongoose to setup a query to find the document with the user's email address.
       .exec(function (error, user) { // use the exec method to perform the search and provide a callback to process the result.
         if(error) {
           return callback(error);
