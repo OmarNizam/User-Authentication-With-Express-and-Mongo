@@ -1,6 +1,15 @@
 var express = require('express');  // to make the app work
 var bodyParser = require('body-parser'); // to read the body of requests send to the server by the browser
+var mongoose = require('mongoose'); // step1 after install mongoose we have to require it.
 var app = express();
+
+// mongodb connection
+mongoose.connect("mongodb://localhost:27017/Bookworm");
+var db = mongoose.connection;
+// mongo error
+db.on('error', console.error.bind(console, 'connection error:'));
+
+
 
 // parse incoming requests
 app.use(bodyParser.json());
