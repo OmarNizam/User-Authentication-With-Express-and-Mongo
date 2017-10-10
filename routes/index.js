@@ -2,6 +2,20 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 
+// GET /logout
+router.get('/logout', function(req, res, next) {
+  if( req.session ) {
+    // Delete session object
+    req.session.destroy(function(err) {
+      if(err) {
+        return next(err);
+      } else {
+        res.redirect('/');
+      }
+    });
+  }
+});
+
 // GET /profile
 router.get('/profile', function(req, res, next) {
   if( !req.session.userId ) {  // checking if the user id exist
