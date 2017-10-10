@@ -2,20 +2,9 @@ var express = require('express');  // to make the app work
 var bodyParser = require('body-parser'); // to read the body of requests send to the server by the browser
 var mongoose = require('mongoose'); // step1 after install mongoose we have to require it.
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session); // this let the connect-mongo middleware access the session.
 var app = express();
 
-// use sessions to keep tracking logins
-app.use(session({  // is the only required option is secret
-  secret: 'Omar loves you', // is a srtring that is used to sign the session id cookie
-  resave: true, // Resave option forces the the session to be saved in the session store.
-  saveUninitialized: false, // forces an initialized session to be saved in the session store.
-}));
-
-// Make the user ID available in templates
-app.use(function(req, res, next) {
-  res.locals.currentUser = req.session.userId;    // locals allow us to add values to res ... currentUser = undifind if the user logedout
-  next();
-})
 
 // mongodb connection
 mongoose.connect("mongodb://localhost:27017/Bookworm");
@@ -23,7 +12,21 @@ var db = mongoose.connection;
 // mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 
+// use sessions to keep tracking logins
+app.use(session({  // is the only required option is secret
+  secret: 'Omar loves you', // is a srtring that is used to sign the session id cookie
+  resave: true, // Resave option forces the the session to be saved in the session store.
+  saveUninitialized: false, // forces an initialized session to be saved in the session store.
+  store: new MongoStore({
+    mongooseConnection: db
+  })
+}));
 
+// Make the user ID available in templates
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.session.userId;    // locals allow us to add values to res ... currentUser = undifind if the user logedout
+  next();
+})
 
 // parse incoming requests
 app.use(bodyParser.json());
