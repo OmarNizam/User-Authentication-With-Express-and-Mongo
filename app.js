@@ -6,10 +6,16 @@ var app = express();
 
 // use sessions to keep tracking logins
 app.use(session({  // is the only required option is secret
-  secret: 'treehouse loves you', // is a srtring that is used to sign the session id cookie
+  secret: 'Omar loves you', // is a srtring that is used to sign the session id cookie
   resave: true, // Resave option forces the the session to be saved in the session store.
   saveUninitialized: false, // forces an initialized session to be saved in the session store.
 }));
+
+// Make the user ID available in templates
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.session.userId;    // locals allow us to add values to res ... currentUser = undifind if the user logedout
+  next();
+})
 
 // mongodb connection
 mongoose.connect("mongodb://localhost:27017/Bookworm");
